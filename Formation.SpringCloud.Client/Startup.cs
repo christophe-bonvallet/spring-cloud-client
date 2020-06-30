@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Management.CloudFoundry;
+using Steeltoe.Management.Endpoint.Health;
 using Steeltoe.Management.Endpoint.Refresh;
 
 namespace Formation.SpringCloud.Client
@@ -31,6 +32,7 @@ namespace Formation.SpringCloud.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHealthActuator(Configuration);
             services.AddCloudFoundryActuators(Configuration);
             services.AddRefreshActuator(Configuration);
             services.AddDiscoveryClient(Configuration);
@@ -52,6 +54,7 @@ namespace Formation.SpringCloud.Client
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseHealthActuator();
             app.UseCloudFoundryActuators();
             app.UseRefreshActuator();
 
