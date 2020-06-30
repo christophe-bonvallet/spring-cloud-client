@@ -1,0 +1,12 @@
+applications:
+- name: formation-springcloud-client
+  buildpacks: [dotnet_core_buildpack]
+  health-check-type: http
+  health-check-http-endpoint: /cloudfoundryapplication/health
+  instances: 1
+  disk_quota: 1G
+  memory: 1G
+  services:
+  - eureka-registry
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
