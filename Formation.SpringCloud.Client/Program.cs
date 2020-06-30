@@ -25,7 +25,7 @@ namespace Formation.SpringCloud.Client
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                .UseCloudHosting(9339)
+                .UseCloudHosting(9449)
                 .AddCloudFoundry()
                 .AddDynamicLogging();
     }

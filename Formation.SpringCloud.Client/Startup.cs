@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Discovery.Client;
 using Steeltoe.Management.CloudFoundry;
 using Steeltoe.Management.Endpoint.Refresh;
 
@@ -32,6 +33,7 @@ namespace Formation.SpringCloud.Client
             services.AddControllersWithViews();
             services.AddCloudFoundryActuators(Configuration);
             services.AddRefreshActuator(Configuration);
+            services.AddDiscoveryClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +54,9 @@ namespace Formation.SpringCloud.Client
             app.UseAuthorization();
             app.UseCloudFoundryActuators();
             app.UseRefreshActuator();
+
+            // Use the Steeltoe Discovery Client service
+            app.UseDiscoveryClient();
 
             app.UseEndpoints(endpoints =>
             {
