@@ -1,6 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@using Formation.SpringCloud.Client.Models
+@{
+    ViewData["Title"] = "Météo";
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<p>Prévision météorologique des 5 prochaine jours.</p>
+
+@foreach (var wf in ViewData.Model as IEnumerable<WeatherForecastModel>)
+{
+<ul>
+  <li>@wf.date</li>
+  <li>@wf.temperatureC</li>
+  <li>@wf.temperatureF</li>
+  <li>@wf.summary</li>
+</ul>
+}

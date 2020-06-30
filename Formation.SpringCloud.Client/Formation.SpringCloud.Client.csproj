@@ -10,6 +10,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Steeltoe.common.hosting" Version="2.4.4" />
+    <PackageReference Include="Steeltoe.Discovery.ClientCore" Version="2.4.4" />
     <PackageReference Include="Steeltoe.extensions.configuration.cloudfoundrycore" Version="2.4.4" />
     <PackageReference Include="Steeltoe.extensions.logging.dynamiclogger" Version="2.4.4" />
     <PackageReference Include="Steeltoe.management.cloudFoundryCore" Version="2.4.4" />
