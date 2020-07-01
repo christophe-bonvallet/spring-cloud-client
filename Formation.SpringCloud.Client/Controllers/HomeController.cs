@@ -9,6 +9,7 @@ using Formation.SpringCloud.Client.Models;
 using Steeltoe.Common.Discovery;
 using System.Net.Http;
 using System.Text.Json;
+using Formation.SpringCloud.Client.Services;
 
 namespace Formation.SpringCloud.Client.Controllers
 {
@@ -28,14 +29,9 @@ namespace Formation.SpringCloud.Client.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Privacy()
+        public async Task<IActionResult> Privacy([FromServices] GetWeatherForecastCommand service)
         {
-            var client = new HttpClient(_handler, false);
-
-            var response = await client.GetStringAsync("http://formation-springcloud-service/weatherforecast");
-            var weatherForecastNext5 = JsonSerializer.Deserialize<List<WeatherForecastModel>>(response);
-
-            return View(weatherForecastNext5);
+            return View(await service.GetWeatherForecast());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

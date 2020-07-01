@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Formation.SpringCloud.Client.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Steeltoe.CircuitBreaker.Hystrix;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Management.CloudFoundry;
 using Steeltoe.Management.Endpoint.Health;
@@ -36,6 +38,10 @@ namespace Formation.SpringCloud.Client
             services.AddCloudFoundryActuators(Configuration);
             services.AddRefreshActuator(Configuration);
             services.AddDiscoveryClient(Configuration);
+            services.AddTransient<IWeatherForecastService, WeatherForecastService>();
+            services.AddHystrixCommand<GetWeatherForecastCommand>("WeatherForecastService", Configuration);
+            services.AddMemoryCache();
+            services.AddHystrixMetricsStream(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +66,11 @@ namespace Formation.SpringCloud.Client
 
             // Use the Steeltoe Discovery Client service
             app.UseDiscoveryClient();
+            // Add Hystrix Metrics context to pipeline
+            app.UseHystrixRequestContext();
+
+            // Start Hystrix metrics stream service
+            app.UseHystrixMetricsStream();
 
             app.UseEndpoints(endpoints =>
             {
